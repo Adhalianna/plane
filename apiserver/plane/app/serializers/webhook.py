@@ -38,13 +38,6 @@ class WebhookSerializer(DynamicBaseSerializer):
                 {"url": "No IP addresses found for the hostname."}
             )
 
-        for addr in ip_addresses:
-            ip = ipaddress.ip_address(addr[4][0])
-            if ip.is_private or ip.is_loopback:
-                raise serializers.ValidationError(
-                    {"url": "URL resolves to a blocked IP address."}
-                )
-
         # Additional validation for multiple request domains and their subdomains
         request = self.context.get("request")
         disallowed_domains = [
@@ -89,13 +82,6 @@ class WebhookSerializer(DynamicBaseSerializer):
                 raise serializers.ValidationError(
                     {"url": "No IP addresses found for the hostname."}
                 )
-
-            for addr in ip_addresses:
-                ip = ipaddress.ip_address(addr[4][0])
-                if ip.is_private or ip.is_loopback:
-                    raise serializers.ValidationError(
-                        {"url": "URL resolves to a blocked IP address."}
-                    )
 
             # Additional validation for multiple request domains and their subdomains
             request = self.context.get("request")
