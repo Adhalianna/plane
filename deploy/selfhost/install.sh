@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 BRANCH=master
 SCRIPT_DIR=$PWD
@@ -128,7 +128,7 @@ function download() {
             exit 0
         fi
     else
-        /bin/bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH --env-file=$DOCKER_ENV_PATH pull"
+        bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH --env-file=$DOCKER_ENV_PATH pull"
     fi
     
     echo ""
@@ -139,7 +139,7 @@ function download() {
 
 }
 function startServices() {
-    /bin/bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH --env-file=$DOCKER_ENV_PATH up -d --quiet-pull"
+    bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH --env-file=$DOCKER_ENV_PATH up -d --quiet-pull"
 
     local migrator_container_id=$(docker container ls -aq -f "name=$SERVICE_FOLDER-migrator")
     if [ -n "$migrator_container_id" ]; then
@@ -189,7 +189,7 @@ function startServices() {
 
 }
 function stopServices() {
-    /bin/bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH --env-file=$DOCKER_ENV_PATH down"
+    bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH --env-file=$DOCKER_ENV_PATH down"
 }
 function restartServices() {
     stopServices
@@ -208,13 +208,13 @@ function upgrade() {
 function viewSpecificLogs(){
     local SERVICE_NAME=$1
 
-    if /bin/bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH ps | grep -q '$SERVICE_NAME'"; then
+    if bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH ps | grep -q '$SERVICE_NAME'"; then
         echo "Service '$SERVICE_NAME' is running."
     else
         echo "Service '$SERVICE_NAME' is not running."
     fi
 
-    /bin/bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH logs -f $SERVICE_NAME"
+    bash -c "$COMPOSE_CMD -f $DOCKER_FILE_PATH logs -f $SERVICE_NAME"
 }
 function viewLogs(){
     

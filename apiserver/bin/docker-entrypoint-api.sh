@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 python manage.py wait_for_db
 # Wait for migrations
