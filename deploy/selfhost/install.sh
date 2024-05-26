@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 BRANCH=master
+FORK_OWNER=makeplane
 SCRIPT_DIR=$PWD
 SERVICE_FOLDER=plane-app
 PLANE_INSTALL_DIR=$PWD/$SERVICE_FOLDER
@@ -57,7 +58,7 @@ function buildLocalImage() {
 
     if [ "$DO_BUILD" == "1" ] || [ "$DO_BUILD" == "" ];
     then
-        REPO=https://github.com/makeplane/plane.git
+        REPO=https://github.com/$FORK_OWNER/plane.git
         CURR_DIR=$PWD
         PLANE_TEMP_CODE_DIR=$(mktemp -d)
         git clone $REPO $PLANE_TEMP_CODE_DIR  --branch $BRANCH --single-branch
@@ -97,8 +98,8 @@ function download() {
         mv $PLANE_INSTALL_DIR/docker-compose.yaml $PLANE_INSTALL_DIR/archive/$TS.docker-compose.yaml
     fi
 
-    curl -H 'Cache-Control: no-cache, no-store' -s -o $PLANE_INSTALL_DIR/docker-compose.yaml  https://raw.githubusercontent.com/makeplane/plane/$BRANCH/deploy/selfhost/docker-compose.yml?$(date +%s)
-    curl -H 'Cache-Control: no-cache, no-store' -s -o $PLANE_INSTALL_DIR/variables-upgrade.env https://raw.githubusercontent.com/makeplane/plane/$BRANCH/deploy/selfhost/variables.env?$(date +%s)
+    curl -H 'Cache-Control: no-cache, no-store' -s -o $PLANE_INSTALL_DIR/docker-compose.yaml  https://raw.githubusercontent.com/$FORK_OWNER/plane/$BRANCH/deploy/selfhost/docker-compose.yml?$(date +%s)
+    curl -H 'Cache-Control: no-cache, no-store' -s -o $PLANE_INSTALL_DIR/variables-upgrade.env https://raw.githubusercontent.com/$FORK_OWNER/plane/$BRANCH/deploy/selfhost/variables.env?$(date +%s)
 
     if [ -f "$DOCKER_ENV_PATH" ];
     then
